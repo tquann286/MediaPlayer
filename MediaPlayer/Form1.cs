@@ -136,6 +136,19 @@ namespace MediaPlayer
                 _Update();
             }
         }
+
+        private int RandNextSongIndex()
+        {
+            int randomNextSong = rand.Next(songHandler.totalSong - 1);
+
+            if (randomNextSong == currentSongIndexPlay) {
+                return RandNextSongIndex();
+            } else
+            {
+                return randomNextSong;
+            }
+        }
+
         private void NextSong()
         {
             if (songHandler.currentNodeSong == null || currentSongIndexPlay == songHandler.totalSong - 1)
@@ -150,9 +163,10 @@ namespace MediaPlayer
 
             isPlaying = true;
             btnPlay.Image = Resources.icon_pause;
-            currentSongIndexPlay++;
 
-            songHandler.NextSong();
+            currentSongIndexPlay = isRandom ? RandNextSongIndex() : ++currentSongIndexPlay;
+
+            songHandler.PlayIndex(currentSongIndexPlay);
             songComponentHandler.ResetAll();
             songComponentHandler.SetPlay(currentSongIndexPlay);
 
@@ -379,9 +393,10 @@ namespace MediaPlayer
 
             isPlaying = true;
             btnPlay.Image = Resources.icon_pause;
-            currentSongIndexPlay--;
 
-            songHandler.PrevSong();
+            currentSongIndexPlay = isRandom ? RandNextSongIndex() : --currentSongIndexPlay;
+
+            songHandler.PlayIndex(currentSongIndexPlay);
             songComponentHandler.ResetAll();
             songComponentHandler.SetPlay(currentSongIndexPlay);
 

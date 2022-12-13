@@ -139,7 +139,7 @@ namespace MediaPlayer
 
         private int RandNextSongIndex()
         {
-            int randomNextSong = rand.Next(songHandler.totalSong - 1);
+            int randomNextSong = rand.Next(0, songHandler.totalSong);
 
             if (randomNextSong == currentSongIndexPlay) {
                 return RandNextSongIndex();
@@ -151,7 +151,7 @@ namespace MediaPlayer
 
         private void NextSong()
         {
-            if (songHandler.currentNodeSong == null || currentSongIndexPlay == songHandler.totalSong - 1)
+            if (songHandler.currentNodeSong == null)
             {
                 return;
             }
@@ -164,9 +164,17 @@ namespace MediaPlayer
             isPlaying = true;
             btnPlay.Image = Resources.icon_pause;
 
-            currentSongIndexPlay = isRandom ? RandNextSongIndex() : ++currentSongIndexPlay;
+            if (isRandom)
+            {
+                currentSongIndexPlay = RandNextSongIndex();
+                songHandler.PlayIndex(currentSongIndexPlay);
+            }
+            else
+            {
+                ++currentSongIndexPlay;
+                songHandler.NextSong();
+            }
 
-            songHandler.PlayIndex(currentSongIndexPlay);
             songComponentHandler.ResetAll();
             songComponentHandler.SetPlay(currentSongIndexPlay);
 
@@ -394,9 +402,16 @@ namespace MediaPlayer
             isPlaying = true;
             btnPlay.Image = Resources.icon_pause;
 
-            currentSongIndexPlay = isRandom ? RandNextSongIndex() : --currentSongIndexPlay;
+            if (isRandom)
+            {
+                currentSongIndexPlay = RandNextSongIndex();
+                songHandler.PlayIndex(currentSongIndexPlay);
+            } else
+            {
+                --currentSongIndexPlay;
+                songHandler.PrevSong();
+            }
 
-            songHandler.PlayIndex(currentSongIndexPlay);
             songComponentHandler.ResetAll();
             songComponentHandler.SetPlay(currentSongIndexPlay);
 

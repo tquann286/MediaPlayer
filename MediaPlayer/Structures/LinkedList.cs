@@ -78,8 +78,8 @@ namespace MediaPlayer.Structures
         }
         private void Unlink(Node<T> item)
         {
-            Node<T> _next = item.GetNodeNext(); // phat
-            Node<T> _prev = item.GetNodePrev(); // huy
+            Node<T> _next = item.GetNodeNext();
+            Node<T> _prev = item.GetNodePrev();
 
             if (_prev == null)
             {

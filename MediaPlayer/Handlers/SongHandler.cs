@@ -109,6 +109,29 @@ namespace MediaPlayer.Handlers
             currentPosition = 0;
             this.Play();
         }
+        public void NextSong()
+        {
+            if (currentNodeSong == null || currentSong == null || totalSong == 0)
+                return;
+
+            currentNodeSong = currentNodeSong.GetNodeNext();
+            currentSong = currentNodeSong.GetItem();
+
+            currentPosition = 0;
+            this.Play();
+        }
+        public void PrevSong()
+        {
+            if (currentNodeSong == null || currentSong == null || totalSong == 0)
+                return;
+
+            currentNodeSong = currentNodeSong.GetNodePrev();
+            currentSong = currentNodeSong.GetItem();
+
+            currentPosition = 0;
+            this.Play();
+
+        }
         public void Pause()
         {
             if (currentNodeSong == null || currentSong == null || totalSong == 0)
